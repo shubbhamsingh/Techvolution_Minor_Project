@@ -17,7 +17,7 @@
        </header>
    </div>
    <section class="container my-2 bg-dark w-50 text-light p-2">
-    <form class="row g-3 p-3">
+    <form class="row g-3 p-3" onsubmit="return validateForm()">
         <div class="col-md-4">
             <label for="validationDefault01" class="form-label">First name</label>
             <input type="text" class="form-control" id="validationDefault01" placeholder="First name"  required>
@@ -147,57 +147,30 @@
    <script>
     function validateForm() {
         let isValid = true;
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const dateOfBirth = document.getElementById('dateOfBirth').value;
-
-        // Validate name
-        if (name === '') {
-            document.getElementById('nameError').textContent = 'Name is required';
+        
+        // Basic phone validation check
+        if (!checkPhone()) {
             isValid = false;
-        } else {
-            document.getElementById('nameError').textContent = '';
-        }
-
-        // Validate email
-        const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (!emailRegex.test(email)) {
-            document.getElementById('emailError').textContent = 'Invalid email format';
-            isValid = false;
-        } else {
-            document.getElementById('emailError').textContent = '';
-        }
-
-      
-
-        // Validate date of birth (basic check for empty date)
-        if (dateOfBirth === '') {
-            document.getElementById('dateOfBirthError').textContent = 'Date of Birth is required';
-            isValid = false;
-        } else {
-            document.getElementById('dateOfBirthError').textContent = '';
         }
 
         return isValid;
-  }
-</script>
-<script type="text/javascript">
-  function validateForm() {
-      return checkPhone();
-  }
-  function checkPhone() {
-      var phone = document.forms["myForm"]["phone"].value;
-      var phoneNum = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
-          if(phone.value.match(phoneNum)) {
-              return true;
-          }
-          else {
-              document.getElementById("phone").className = document.getElementById("phone").className + " error";
-              return false;
-          }
- }
-</script>
+    }
+
+    function checkPhone() {
+        var phoneInput = document.getElementById("phone");
+        if (!phoneInput) return true;
+        
+        var phone = phoneInput.value;
+        var phoneNum = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
+        if(phone.match(phoneNum)) {
+            phoneInput.classList.remove("error");
+            return true;
+        } else {
+            phoneInput.classList.add("error");
+            return false;
+        }
+    }
+   </script>
 <script src="script.js"></script>
   </body>
 </html>
